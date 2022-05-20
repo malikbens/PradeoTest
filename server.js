@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const package = require('./package.json');
+const mysql = require('mysql');
 
 
 const port = process.env.PORT || 5000;
@@ -23,6 +24,31 @@ router.get('/', (req, res) => {
 
 // register routes
 app.use(apiRoot, router);
+
+// create connection
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "",
+});
+
+// connect to MySQL
+db.connect(function(err){
+    if(err) throw err;
+    console.log("Connected!");
+    const sql = ("CREATE TABLE IF NOT EXISTS users_file (id INT(10) NOT NULL AUTO_INCREMENT, file_src TEXT, PRIMARY KEY(id))");
+    db.query("CREATE DATABASE IF NOT EXISTS pradeo;", function(err, result) {
+        if (err) throw err;
+        console.log("Database created");
+        db.query("USE pradeo;", function(err, results){
+            console.log("Database connected");
+        });
+        db.query(sql, function(err, result){
+            if (err) throw err ;
+            console.log("Table created");
+        })
+    });
+});
 
 app.listen(port, () => {
     console.log('Server is up !')
