@@ -30,12 +30,11 @@ appsdb.one = (id) => {
             return resolve(result[0]);
         })
     })
-
 };
 
 appsdb.insert = (app) => {
     return new Promise((resolve, reject) => {
-        pool.query("INSERT INTO `files`(`FILE`) VALUES (?)", app, (err, result) => {
+        pool.query("INSERT INTO `files`(`name`) VALUES (?)", app, (err, result) => {
             if (err) {
                 return reject(err);
             }
