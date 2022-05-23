@@ -27,14 +27,14 @@ appsdb.one = (id) => {
             if (err) {
                 return reject(err);
             }
-            return resolve(result[0]);
+            return resolve(result);
         })
     })
 };
 
 appsdb.insert = (data) => {
     return new Promise((resolve, reject) => {
-        pool.query("INSERT INTO `applications`(`name`,`datas`,`hash`) VALUES (?,?,?)", data, (err, result) => {
+        pool.query("INSERT INTO `applications`(`name`,`datas`,`hash`, `status`) VALUES (?,?,?, ?)", data, (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -65,5 +65,16 @@ appsdb.update = (data) => {
 
     })
 };
+
+appsdb.updateStatus = (data) => {
+    return new Promise((resolve, reject) => {
+        pool.query('UPDATE applications SET status = ? WHERE hash = ? ', data,  (err, result) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(result)  
+        })
+    }) 
+}
 
 module.exports = appsdb;

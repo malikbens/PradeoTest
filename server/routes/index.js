@@ -19,7 +19,11 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     try {
-        let result = await db.one(req.params.id)
+        const result = await db.one(req.params.id)
+        console.log(result);
+        if (result.length === 0){
+            res.sendStatus(204)
+        }
         res.json(result);
     } catch (error) {
         console.log(error);
@@ -43,13 +47,18 @@ router.put('/:id', async (req, res) => {
         let description = req.body.description;
         let name = req.body.name;
         let id = req.params.id;
+
         let data = [name, description, id]
+
         let result = await db.update(data)
         res.json(result)
+
     } catch (error) {
         console.log(error);
         res.sendStatus(500);
     }
 })
+
+
 
 module.exports = router; 

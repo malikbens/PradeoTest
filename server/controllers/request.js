@@ -1,4 +1,5 @@
 const axios = require('axios');
+const db = require('../db');
 
 const makeRequest = async (hash) => {
 
@@ -11,11 +12,19 @@ const makeRequest = async (hash) => {
         const url = 'https://www.virustotal.com/api/v3/files/' + hash + '';
 
         const response = await axios.get(url, config)
-        console.log(response.data)
+        console.log(response.data.data.attributes.last_analysis_stats.malicious)
+        const malicious = response.data.data.attributes.last_analysis_stats.malicious;
+        if(malicious == "0"){
+            data = ['sur', hash]
+            db.updateStatus(data);
+        }else{
+            data = ['virus', hash]
+            db.updateStatus(data)
+        }
+        
     } catch (err) {
         console.log(err)
     }
-
 
 };
 
