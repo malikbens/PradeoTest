@@ -12,7 +12,7 @@ let appsdb = {};
 
 appsdb.all = () => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT * FROM files`, (err, result) => {
+        pool.query(`SELECT * FROM applications`, (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -23,7 +23,7 @@ appsdb.all = () => {
 
 appsdb.one = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT * FROM files WHERE id = ?`, id, (err, result) => {
+        pool.query(`SELECT * FROM applications WHERE id = ?`, id, (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -32,9 +32,9 @@ appsdb.one = (id) => {
     })
 };
 
-appsdb.insert = (app) => {
+appsdb.insert = (data) => {
     return new Promise((resolve, reject) => {
-        pool.query("INSERT INTO `files`(`name`) VALUES (?)", app, (err, result) => {
+        pool.query("INSERT INTO `applications`(`name`,`datas`,`hash`) VALUES (?,?,?)", data, (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -45,7 +45,7 @@ appsdb.insert = (app) => {
 
 appsdb.delete = (id) => {
     return new Promise((resolve, reject) => {
-        pool.query("DELETE FROM files WHERE id = ?", id, (err, result) => {
+        pool.query("DELETE FROM applications WHERE id = ?", id, (err, result) => {
             if (err) {
                 return reject(err);
             }
@@ -56,7 +56,7 @@ appsdb.delete = (id) => {
 
 appsdb.update = (data) => {
     return new Promise((resolve, reject) => {
-        pool.query("UPDATE files SET description = ?, name = ? WHERE id = ?  ", data, (err, result) => {
+        pool.query("UPDATE applications SET  name = ?, description = ? WHERE id = ?  ", data, (err, result) => {
             if (err) {
                 return reject(err);
             }
