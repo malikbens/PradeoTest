@@ -10,7 +10,9 @@ export default function apps(props) {
           <Card.Title>{props.name}</Card.Title>
           <Card.Subtitle>{props.status}</Card.Subtitle>
           <Card.Text>{props.description}</Card.Text>
-          <Button href='' variant="primary">modifier</Button>
+
+          <Button href={`/applications/${props.id}`} variant="primary">modifier</Button>
+
         </Card.Body>
       </Card>
     </div>

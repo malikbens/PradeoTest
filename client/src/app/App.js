@@ -1,34 +1,29 @@
-import React, {useEffect, useState} from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Navbar from '../components/Navbar'
-import Apps from '../components/Apps';
 
-function App() {
+import React, { Component } from 'react';
+import { BrowserRouter as Router,Routes, Route,  } from 'react-router-dom';
+import Home from '../pages/Home';
+import Applications from '../pages/Applications';
+import Application from '../pages/Application';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-  const [backendData, setBackendData] = useState([{}]);
-  
-  useEffect(() => {
-    fetch("/api/apps").then(
-      response => response.json()
-    ).then(data => {
-        setBackendData(data);
-      }
-    )
-  }, [])
 
-  if(backendData){
+import './App.css';
+ 
+class App extends Component {
+  render() {
     return (
-      <>
-      <Navbar />
-      <div>
-      {backendData.map(data => (
-        <Apps key={data.id} name={data.name} status={data.status} description={data.description}/>
-      ))}
-      </div>
-      </>
-    )
+       <Router>
+           <div className="App">
+           <Routes>
+                 <Route exact path='/' element={< Home />}></Route>
+                 <Route exact path='/applications' element={< Applications />}></Route>
+                 <Route exact path='/applications/:id' element={< Applications />}>
+                 </Route>
+          </Routes>
+          </div>
+       </Router>
+   );
   }
-
 }
-
-export default App
+ 
+export default App;

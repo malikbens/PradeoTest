@@ -7,7 +7,8 @@ const request = require('./request')
 
 const postApp = (async (req, res, next) => {
     try {
-        const file =  req.files.applications
+        const file =  req.files.application
+        console.log(file)
         const fileName = new Date().getTime().toString() + path.extname(file.name) 
         const savePath = path.join( 'public','uploads', fileName)
 
