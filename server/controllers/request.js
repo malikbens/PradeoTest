@@ -13,7 +13,6 @@ const makeRequest = async (hash) => {
 
         const response = await axios.get(url, config)
 
-    
         const malicious = response.data.data.attributes.last_analysis_stats.malicious;
         if(malicious == "0"){
             data = ['sur', hash]
