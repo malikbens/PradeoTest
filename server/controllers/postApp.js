@@ -7,14 +7,16 @@ const request = require('./request')
 
 const postApp = (async (req, res, next) => {
     try {
-        let file =  req.files.application
-        let fileName = new Date().getTime().toString() + path.extname(file.name)
-        let savePath = path.join( 'public','uploads', fileName)
+        const file =  req.files.applications
+        const fileName = new Date().getTime().toString() + path.extname(file.name) 
+        const savePath = path.join( 'public','uploads', fileName)
+
         if (file.mimetype !== 'application/vnd.android.package-archive') {
             res.sendStatus(404).json('Only adroid applications are supported')
         }
         
         await file.mv(savePath);
+
 
         const fileBuffer = fs.readFileSync(savePath);
         const hash = crypto.createHash('md5')
@@ -32,13 +34,12 @@ const postApp = (async (req, res, next) => {
             console.log('quelque chose cloche...')
         }
 
-       await request(finalHex)
+       await request(finalHex);
 
     } catch (error) {
         console.log(error)
         res.send("Error uploading file")
     }
 })
-
 
 module.exports = postApp
